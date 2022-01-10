@@ -16,6 +16,11 @@ class MyApp extends StatelessWidget {
       title: 'My Training App',
       theme: ThemeData(
         primaryColor: colorRed,
+        secondaryHeaderColor: colorRed,
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+              primary: colorRed, fixedSize: const Size.fromHeight(36)),
+        ),
         textTheme: Theme.of(context).textTheme.apply(fontFamily: "Poppins"),
       ),
       onGenerateRoute: appGenerateRoute(),
