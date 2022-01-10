@@ -1,0 +1,2617 @@
+diff --git a/.gitignore b/.gitignore
+new file mode 100644
+index 0000000..0fa6b67
+--- /dev/null
++++ b/.gitignore
+@@ -0,0 +1,46 @@
++# Miscellaneous
++*.class
++*.log
++*.pyc
++*.swp
++.DS_Store
++.atom/
++.buildlog/
++.history
++.svn/
++
++# IntelliJ related
++*.iml
++*.ipr
++*.iws
++.idea/
++
++# The .vscode folder contains launch configuration and tasks you configure in
++# VS Code which you may wish to be included in version control, so this line
++# is commented out by default.
++#.vscode/
++
++# Flutter/Dart/Pub related
++**/doc/api/
++**/ios/Flutter/.last_build_id
++.dart_tool/
++.flutter-plugins
++.flutter-plugins-dependencies
++.packages
++.pub-cache/
++.pub/
++/build/
++
++# Web related
++lib/generated_plugin_registrant.dart
++
++# Symbolication related
++app.*.symbols
++
++# Obfuscation related
++app.*.map.json
++
++# Android Studio will place build artifacts here
++/android/app/debug
++/android/app/profile
++/android/app/release
+diff --git a/.metadata b/.metadata
+new file mode 100644
+index 0000000..a5584fc
+--- /dev/null
++++ b/.metadata
+@@ -0,0 +1,10 @@
++# This file tracks properties of this Flutter project.
++# Used by Flutter tool to assess capabilities and perform upgrades etc.
++#
++# This file should be version controlled and should not be manually edited.
++
++version:
++  revision: 18116933e77adc82f80866c928266a5b4f1ed645
++  channel: stable
++
++project_type: app
+diff --git a/README.md b/README.md
+new file mode 100644
+index 0000000..638cadc
+--- /dev/null
++++ b/README.md
+@@ -0,0 +1,16 @@
++# my_trainings_app
++
++A new Flutter project.
++
++## Getting Started
++
++This project is a starting point for a Flutter application.
++
++A few resources to get you started if this is your first Flutter project:
++
++- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
++- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
++
++For help getting started with Flutter, view our
++[online documentation](https://flutter.dev/docs), which offers tutorials,
++samples, guidance on mobile development, and a full API reference.
+diff --git a/analysis_options.yaml b/analysis_options.yaml
+new file mode 100644
+index 0000000..61b6c4d
+--- /dev/null
++++ b/analysis_options.yaml
+@@ -0,0 +1,29 @@
++# This file configures the analyzer, which statically analyzes Dart code to
++# check for errors, warnings, and lints.
++#
++# The issues identified by the analyzer are surfaced in the UI of Dart-enabled
++# IDEs (https://dart.dev/tools#ides-and-editors). The analyzer can also be
++# invoked from the command line by running `flutter analyze`.
++
++# The following line activates a set of recommended lints for Flutter apps,
++# packages, and plugins designed to encourage good coding practices.
++include: package:flutter_lints/flutter.yaml
++
++linter:
++  # The lint rules applied to this project can be customized in the
++  # section below to disable rules from the `package:flutter_lints/flutter.yaml`
++  # included above or to enable additional rules. A list of all available lints
++  # and their documentation is published at
++  # https://dart-lang.github.io/linter/lints/index.html.
++  #
++  # Instead of disabling a lint rule for the entire project in the
++  # section below, it can also be suppressed for a single line of code
++  # or a specific dart file by using the `// ignore: name_of_lint` and
++  # `// ignore_for_file: name_of_lint` syntax on the line or in the file
++  # producing the lint.
++  rules:
++    # avoid_print: false  # Uncomment to disable the `avoid_print` rule
++    # prefer_single_quotes: true  # Uncomment to enable the `prefer_single_quotes` rule
++
++# Additional information about this file can be found at
++# https://dart.dev/guides/language/analysis-options
+diff --git a/android/.gitignore b/android/.gitignore
+new file mode 100644
+index 0000000..6f56801
+--- /dev/null
++++ b/android/.gitignore
+@@ -0,0 +1,13 @@
++gradle-wrapper.jar
++/.gradle
++/captures/
++/gradlew
++/gradlew.bat
++/local.properties
++GeneratedPluginRegistrant.java
++
++# Remember to never publicly share your keystore.
++# See https://flutter.dev/docs/deployment/android#reference-the-keystore-from-the-app
++key.properties
++**/*.keystore
++**/*.jks
+diff --git a/android/app/build.gradle b/android/app/build.gradle
+new file mode 100644
+index 0000000..addafa2
+--- /dev/null
++++ b/android/app/build.gradle
+@@ -0,0 +1,68 @@
++def localProperties = new Properties()
++def localPropertiesFile = rootProject.file('local.properties')
++if (localPropertiesFile.exists()) {
++    localPropertiesFile.withReader('UTF-8') { reader ->
++        localProperties.load(reader)
++    }
++}
++
++def flutterRoot = localProperties.getProperty('flutter.sdk')
++if (flutterRoot == null) {
++    throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
++}
++
++def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
++if (flutterVersionCode == null) {
++    flutterVersionCode = '1'
++}
++
++def flutterVersionName = localProperties.getProperty('flutter.versionName')
++if (flutterVersionName == null) {
++    flutterVersionName = '1.0'
++}
++
++apply plugin: 'com.android.application'
++apply plugin: 'kotlin-android'
++apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
++
++android {
++    compileSdkVersion 30
++
++    compileOptions {
++        sourceCompatibility JavaVersion.VERSION_1_8
++        targetCompatibility JavaVersion.VERSION_1_8
++    }
++
++    kotlinOptions {
++        jvmTarget = '1.8'
++    }
++
++    sourceSets {
++        main.java.srcDirs += 'src/main/kotlin'
++    }
++
++    defaultConfig {
++        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
++        applicationId "com.example.my_trainings_app"
++        minSdkVersion 16
++        targetSdkVersion 30
++        versionCode flutterVersionCode.toInteger()
++        versionName flutterVersionName
++    }
++
++    buildTypes {
++        release {
++            // TODO: Add your own signing config for the release build.
++            // Signing with the debug keys for now, so `flutter run --release` works.
++            signingConfig signingConfigs.debug
++        }
++    }
++}
++
++flutter {
++    source '../..'
++}
++
++dependencies {
++    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
++}
+diff --git a/android/app/src/debug/AndroidManifest.xml b/android/app/src/debug/AndroidManifest.xml
+new file mode 100644
+index 0000000..782450d
+--- /dev/null
++++ b/android/app/src/debug/AndroidManifest.xml
+@@ -0,0 +1,7 @@
++<manifest xmlns:android="http://schemas.android.com/apk/res/android"
++    package="com.example.my_trainings_app">
++    <!-- Flutter needs it to communicate with the running application
++         to allow setting breakpoints, to provide hot reload, etc.
++    -->
++    <uses-permission android:name="android.permission.INTERNET"/>
++</manifest>
+diff --git a/android/app/src/main/AndroidManifest.xml b/android/app/src/main/AndroidManifest.xml
+new file mode 100644
+index 0000000..5c68030
+--- /dev/null
++++ b/android/app/src/main/AndroidManifest.xml
+@@ -0,0 +1,41 @@
++<manifest xmlns:android="http://schemas.android.com/apk/res/android"
++    package="com.example.my_trainings_app">
++   <application
++        android:label="My Trainings App"
++        android:icon="@mipmap/ic_launcher">
++        <activity
++            android:name=".MainActivity"
++            android:launchMode="singleTop"
++            android:theme="@style/LaunchTheme"
++            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
++            android:hardwareAccelerated="true"
++            android:windowSoftInputMode="adjustResize">
++            <!-- Specifies an Android theme to apply to this Activity as soon as
++                 the Android process has started. This theme is visible to the user
++                 while the Flutter UI initializes. After that, this theme continues
++                 to determine the Window background behind the Flutter UI. -->
++            <meta-data
++              android:name="io.flutter.embedding.android.NormalTheme"
++              android:resource="@style/NormalTheme"
++              />
++            <!-- Displays an Android View that continues showing the launch screen
++                 Drawable until Flutter paints its first frame, then this splash
++                 screen fades out. A splash screen is useful to avoid any visual
++                 gap between the end of Android's launch screen and the painting of
++                 Flutter's first frame. -->
++            <meta-data
++              android:name="io.flutter.embedding.android.SplashScreenDrawable"
++              android:resource="@drawable/launch_background"
++              />
++            <intent-filter>
++                <action android:name="android.intent.action.MAIN"/>
++                <category android:name="android.intent.category.LAUNCHER"/>
++            </intent-filter>
++        </activity>
++        <!-- Don't delete the meta-data below.
++             This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
++        <meta-data
++            android:name="flutterEmbedding"
++            android:value="2" />
++    </application>
++</manifest>
+diff --git a/android/app/src/main/kotlin/com/example/my_trainings_app/MainActivity.kt b/android/app/src/main/kotlin/com/example/my_trainings_app/MainActivity.kt
+new file mode 100644
+index 0000000..7befa71
+--- /dev/null
++++ b/android/app/src/main/kotlin/com/example/my_trainings_app/MainActivity.kt
+@@ -0,0 +1,6 @@
++package com.example.my_trainings_app
++
++import io.flutter.embedding.android.FlutterActivity
++
++class MainActivity: FlutterActivity() {
++}
+diff --git a/android/app/src/main/res/drawable-v21/launch_background.xml b/android/app/src/main/res/drawable-v21/launch_background.xml
+new file mode 100644
+index 0000000..f74085f
+--- /dev/null
++++ b/android/app/src/main/res/drawable-v21/launch_background.xml
+@@ -0,0 +1,12 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!-- Modify this file to customize your launch splash screen -->
++<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
++    <item android:drawable="?android:colorBackground" />
++
++    <!-- You can insert your own image assets here -->
++    <!-- <item>
++        <bitmap
++            android:gravity="center"
++            android:src="@mipmap/launch_image" />
++    </item> -->
++</layer-list>
+diff --git a/android/app/src/main/res/drawable/launch_background.xml b/android/app/src/main/res/drawable/launch_background.xml
+new file mode 100644
+index 0000000..304732f
+--- /dev/null
++++ b/android/app/src/main/res/drawable/launch_background.xml
+@@ -0,0 +1,12 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!-- Modify this file to customize your launch splash screen -->
++<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
++    <item android:drawable="@android:color/white" />
++
++    <!-- You can insert your own image assets here -->
++    <!-- <item>
++        <bitmap
++            android:gravity="center"
++            android:src="@mipmap/launch_image" />
++    </item> -->
++</layer-list>
+diff --git a/android/app/src/main/res/mipmap-hdpi/ic_launcher.png b/android/app/src/main/res/mipmap-hdpi/ic_launcher.png
+new file mode 100644
+index 0000000..db77bb4
+Binary files /dev/null and b/android/app/src/main/res/mipmap-hdpi/ic_launcher.png differ
+diff --git a/android/app/src/main/res/mipmap-mdpi/ic_launcher.png b/android/app/src/main/res/mipmap-mdpi/ic_launcher.png
+new file mode 100644
+index 0000000..17987b7
+Binary files /dev/null and b/android/app/src/main/res/mipmap-mdpi/ic_launcher.png differ
+diff --git a/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png b/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png
+new file mode 100644
+index 0000000..09d4391
+Binary files /dev/null and b/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png differ
+diff --git a/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png b/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png
+new file mode 100644
+index 0000000..d5f1c8d
+Binary files /dev/null and b/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png differ
+diff --git a/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png b/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+new file mode 100644
+index 0000000..4d6372e
+Binary files /dev/null and b/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png differ
+diff --git a/android/app/src/main/res/values-night/styles.xml b/android/app/src/main/res/values-night/styles.xml
+new file mode 100644
+index 0000000..449a9f9
+--- /dev/null
++++ b/android/app/src/main/res/values-night/styles.xml
+@@ -0,0 +1,18 @@
++<?xml version="1.0" encoding="utf-8"?>
++<resources>
++    <!-- Theme applied to the Android Window while the process is starting when the OS's Dark Mode setting is on -->
++    <style name="LaunchTheme" parent="@android:style/Theme.Black.NoTitleBar">
++        <!-- Show a splash screen on the activity. Automatically removed when
++             Flutter draws its first frame -->
++        <item name="android:windowBackground">@drawable/launch_background</item>
++    </style>
++    <!-- Theme applied to the Android Window as soon as the process has started.
++         This theme determines the color of the Android Window while your
++         Flutter UI initializes, as well as behind your Flutter UI while its
++         running.
++         
++         This Theme is only used starting with V2 of Flutter's Android embedding. -->
++    <style name="NormalTheme" parent="@android:style/Theme.Black.NoTitleBar">
++        <item name="android:windowBackground">?android:colorBackground</item>
++    </style>
++</resources>
+diff --git a/android/app/src/main/res/values/styles.xml b/android/app/src/main/res/values/styles.xml
+new file mode 100644
+index 0000000..d74aa35
+--- /dev/null
++++ b/android/app/src/main/res/values/styles.xml
+@@ -0,0 +1,18 @@
++<?xml version="1.0" encoding="utf-8"?>
++<resources>
++    <!-- Theme applied to the Android Window while the process is starting when the OS's Dark Mode setting is off -->
++    <style name="LaunchTheme" parent="@android:style/Theme.Light.NoTitleBar">
++        <!-- Show a splash screen on the activity. Automatically removed when
++             Flutter draws its first frame -->
++        <item name="android:windowBackground">@drawable/launch_background</item>
++    </style>
++    <!-- Theme applied to the Android Window as soon as the process has started.
++         This theme determines the color of the Android Window while your
++         Flutter UI initializes, as well as behind your Flutter UI while its
++         running.
++         
++         This Theme is only used starting with V2 of Flutter's Android embedding. -->
++    <style name="NormalTheme" parent="@android:style/Theme.Light.NoTitleBar">
++        <item name="android:windowBackground">?android:colorBackground</item>
++    </style>
++</resources>
+diff --git a/android/app/src/profile/AndroidManifest.xml b/android/app/src/profile/AndroidManifest.xml
+new file mode 100644
+index 0000000..782450d
+--- /dev/null
++++ b/android/app/src/profile/AndroidManifest.xml
+@@ -0,0 +1,7 @@
++<manifest xmlns:android="http://schemas.android.com/apk/res/android"
++    package="com.example.my_trainings_app">
++    <!-- Flutter needs it to communicate with the running application
++         to allow setting breakpoints, to provide hot reload, etc.
++    -->
++    <uses-permission android:name="android.permission.INTERNET"/>
++</manifest>
+diff --git a/android/build.gradle b/android/build.gradle
+new file mode 100644
+index 0000000..ed45c65
+--- /dev/null
++++ b/android/build.gradle
+@@ -0,0 +1,29 @@
++buildscript {
++    ext.kotlin_version = '1.3.50'
++    repositories {
++        google()
++        mavenCentral()
++    }
++
++    dependencies {
++        classpath 'com.android.tools.build:gradle:4.1.0'
++        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
++    }
++}
++
++allprojects {
++    repositories {
++        google()
++        mavenCentral()
++    }
++}
++
++rootProject.buildDir = '../build'
++subprojects {
++    project.buildDir = "${rootProject.buildDir}/${project.name}"
++    project.evaluationDependsOn(':app')
++}
++
++task clean(type: Delete) {
++    delete rootProject.buildDir
++}
+diff --git a/android/gradle.properties b/android/gradle.properties
+new file mode 100644
+index 0000000..94adc3a
+--- /dev/null
++++ b/android/gradle.properties
+@@ -0,0 +1,3 @@
++org.gradle.jvmargs=-Xmx1536M
++android.useAndroidX=true
++android.enableJetifier=true
+diff --git a/android/gradle/wrapper/gradle-wrapper.properties b/android/gradle/wrapper/gradle-wrapper.properties
+new file mode 100644
+index 0000000..bc6a58a
+--- /dev/null
++++ b/android/gradle/wrapper/gradle-wrapper.properties
+@@ -0,0 +1,6 @@
++#Fri Jun 23 08:50:38 CEST 2017
++distributionBase=GRADLE_USER_HOME
++distributionPath=wrapper/dists
++zipStoreBase=GRADLE_USER_HOME
++zipStorePath=wrapper/dists
++distributionUrl=https\://services.gradle.org/distributions/gradle-6.7-all.zip
+diff --git a/android/settings.gradle b/android/settings.gradle
+new file mode 100644
+index 0000000..44e62bc
+--- /dev/null
++++ b/android/settings.gradle
+@@ -0,0 +1,11 @@
++include ':app'
++
++def localPropertiesFile = new File(rootProject.projectDir, "local.properties")
++def properties = new Properties()
++
++assert localPropertiesFile.exists()
++localPropertiesFile.withReader("UTF-8") { reader -> properties.load(reader) }
++
++def flutterSdkPath = properties.getProperty("flutter.sdk")
++assert flutterSdkPath != null, "flutter.sdk not set in local.properties"
++apply from: "$flutterSdkPath/packages/flutter_tools/gradle/app_plugin_loader.gradle"
+diff --git a/assets/images/slider/2.0x/slide_1.png b/assets/images/slider/2.0x/slide_1.png
+new file mode 100644
+index 0000000..e4b29e1
+Binary files /dev/null and b/assets/images/slider/2.0x/slide_1.png differ
+diff --git a/assets/images/slider/2.0x/slide_2.png b/assets/images/slider/2.0x/slide_2.png
+new file mode 100644
+index 0000000..38f93be
+Binary files /dev/null and b/assets/images/slider/2.0x/slide_2.png differ
+diff --git a/assets/images/slider/2.0x/slide_3.png b/assets/images/slider/2.0x/slide_3.png
+new file mode 100644
+index 0000000..023b9bc
+Binary files /dev/null and b/assets/images/slider/2.0x/slide_3.png differ
+diff --git a/assets/images/slider/3.0x/slide_1.png b/assets/images/slider/3.0x/slide_1.png
+new file mode 100644
+index 0000000..a3adb0a
+Binary files /dev/null and b/assets/images/slider/3.0x/slide_1.png differ
+diff --git a/assets/images/slider/3.0x/slide_2.png b/assets/images/slider/3.0x/slide_2.png
+new file mode 100644
+index 0000000..234cf28
+Binary files /dev/null and b/assets/images/slider/3.0x/slide_2.png differ
+diff --git a/assets/images/slider/3.0x/slide_3.png b/assets/images/slider/3.0x/slide_3.png
+new file mode 100644
+index 0000000..2ca33c1
+Binary files /dev/null and b/assets/images/slider/3.0x/slide_3.png differ
+diff --git a/assets/images/slider/4.0x/slide_1.png b/assets/images/slider/4.0x/slide_1.png
+new file mode 100644
+index 0000000..38ed22f
+Binary files /dev/null and b/assets/images/slider/4.0x/slide_1.png differ
+diff --git a/assets/images/slider/4.0x/slide_2.png b/assets/images/slider/4.0x/slide_2.png
+new file mode 100644
+index 0000000..603d355
+Binary files /dev/null and b/assets/images/slider/4.0x/slide_2.png differ
+diff --git a/assets/images/slider/4.0x/slide_3.png b/assets/images/slider/4.0x/slide_3.png
+new file mode 100644
+index 0000000..58396a0
+Binary files /dev/null and b/assets/images/slider/4.0x/slide_3.png differ
+diff --git a/assets/images/slider/slide_1.png b/assets/images/slider/slide_1.png
+new file mode 100644
+index 0000000..f41bb59
+Binary files /dev/null and b/assets/images/slider/slide_1.png differ
+diff --git a/assets/images/slider/slide_2.png b/assets/images/slider/slide_2.png
+new file mode 100644
+index 0000000..6d05862
+Binary files /dev/null and b/assets/images/slider/slide_2.png differ
+diff --git a/assets/images/slider/slide_3.png b/assets/images/slider/slide_3.png
+new file mode 100644
+index 0000000..53e4923
+Binary files /dev/null and b/assets/images/slider/slide_3.png differ
+diff --git a/fonts/poppins/Poppins-Black.ttf b/fonts/poppins/Poppins-Black.ttf
+new file mode 100644
+index 0000000..a9520b7
+Binary files /dev/null and b/fonts/poppins/Poppins-Black.ttf differ
+diff --git a/fonts/poppins/Poppins-Bold.ttf b/fonts/poppins/Poppins-Bold.ttf
+new file mode 100644
+index 0000000..b94d47f
+Binary files /dev/null and b/fonts/poppins/Poppins-Bold.ttf differ
+diff --git a/fonts/poppins/Poppins-ExtraBold.ttf b/fonts/poppins/Poppins-ExtraBold.ttf
+new file mode 100644
+index 0000000..8f008c3
+Binary files /dev/null and b/fonts/poppins/Poppins-ExtraBold.ttf differ
+diff --git a/fonts/poppins/Poppins-ExtraLight.ttf b/fonts/poppins/Poppins-ExtraLight.ttf
+new file mode 100644
+index 0000000..ee62382
+Binary files /dev/null and b/fonts/poppins/Poppins-ExtraLight.ttf differ
+diff --git a/fonts/poppins/Poppins-Italic.ttf b/fonts/poppins/Poppins-Italic.ttf
+new file mode 100644
+index 0000000..4620399
+Binary files /dev/null and b/fonts/poppins/Poppins-Italic.ttf differ
+diff --git a/fonts/poppins/Poppins-Light.ttf b/fonts/poppins/Poppins-Light.ttf
+new file mode 100644
+index 0000000..2ab0221
+Binary files /dev/null and b/fonts/poppins/Poppins-Light.ttf differ
+diff --git a/fonts/poppins/Poppins-Medium.ttf b/fonts/poppins/Poppins-Medium.ttf
+new file mode 100644
+index 0000000..e90e87e
+Binary files /dev/null and b/fonts/poppins/Poppins-Medium.ttf differ
+diff --git a/fonts/poppins/Poppins-Regular.ttf b/fonts/poppins/Poppins-Regular.ttf
+new file mode 100644
+index 0000000..be06e7f
+Binary files /dev/null and b/fonts/poppins/Poppins-Regular.ttf differ
+diff --git a/fonts/poppins/Poppins-SemiBold.ttf b/fonts/poppins/Poppins-SemiBold.ttf
+new file mode 100644
+index 0000000..dabf7c2
+Binary files /dev/null and b/fonts/poppins/Poppins-SemiBold.ttf differ
+diff --git a/fonts/poppins/Poppins-Thin.ttf b/fonts/poppins/Poppins-Thin.ttf
+new file mode 100644
+index 0000000..f5c0fdd
+Binary files /dev/null and b/fonts/poppins/Poppins-Thin.ttf differ
+diff --git a/fonts/times_new_roman/Times-New-Roman-Bold.ttf b/fonts/times_new_roman/Times-New-Roman-Bold.ttf
+new file mode 100644
+index 0000000..578542c
+Binary files /dev/null and b/fonts/times_new_roman/Times-New-Roman-Bold.ttf differ
+diff --git a/fonts/times_new_roman/Times-New-Roman.ttf b/fonts/times_new_roman/Times-New-Roman.ttf
+new file mode 100644
+index 0000000..d7969c3
+Binary files /dev/null and b/fonts/times_new_roman/Times-New-Roman.ttf differ
+diff --git a/ios/.gitignore b/ios/.gitignore
+new file mode 100644
+index 0000000..7a7f987
+--- /dev/null
++++ b/ios/.gitignore
+@@ -0,0 +1,34 @@
++**/dgph
++*.mode1v3
++*.mode2v3
++*.moved-aside
++*.pbxuser
++*.perspectivev3
++**/*sync/
++.sconsign.dblite
++.tags*
++**/.vagrant/
++**/DerivedData/
++Icon?
++**/Pods/
++**/.symlinks/
++profile
++xcuserdata
++**/.generated/
++Flutter/App.framework
++Flutter/Flutter.framework
++Flutter/Flutter.podspec
++Flutter/Generated.xcconfig
++Flutter/ephemeral/
++Flutter/app.flx
++Flutter/app.zip
++Flutter/flutter_assets/
++Flutter/flutter_export_environment.sh
++ServiceDefinitions.json
++Runner/GeneratedPluginRegistrant.*
++
++# Exceptions to above rules.
++!default.mode1v3
++!default.mode2v3
++!default.pbxuser
++!default.perspectivev3
+diff --git a/ios/Flutter/AppFrameworkInfo.plist b/ios/Flutter/AppFrameworkInfo.plist
+new file mode 100644
+index 0000000..8d4492f
+--- /dev/null
++++ b/ios/Flutter/AppFrameworkInfo.plist
+@@ -0,0 +1,26 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
++<plist version="1.0">
++<dict>
++  <key>CFBundleDevelopmentRegion</key>
++  <string>en</string>
++  <key>CFBundleExecutable</key>
++  <string>App</string>
++  <key>CFBundleIdentifier</key>
++  <string>io.flutter.flutter.app</string>
++  <key>CFBundleInfoDictionaryVersion</key>
++  <string>6.0</string>
++  <key>CFBundleName</key>
++  <string>App</string>
++  <key>CFBundlePackageType</key>
++  <string>FMWK</string>
++  <key>CFBundleShortVersionString</key>
++  <string>1.0</string>
++  <key>CFBundleSignature</key>
++  <string>????</string>
++  <key>CFBundleVersion</key>
++  <string>1.0</string>
++  <key>MinimumOSVersion</key>
++  <string>9.0</string>
++</dict>
++</plist>
+diff --git a/ios/Flutter/Debug.xcconfig b/ios/Flutter/Debug.xcconfig
+new file mode 100644
+index 0000000..592ceee
+--- /dev/null
++++ b/ios/Flutter/Debug.xcconfig
+@@ -0,0 +1 @@
++#include "Generated.xcconfig"
+diff --git a/ios/Flutter/Release.xcconfig b/ios/Flutter/Release.xcconfig
+new file mode 100644
+index 0000000..592ceee
+--- /dev/null
++++ b/ios/Flutter/Release.xcconfig
+@@ -0,0 +1 @@
++#include "Generated.xcconfig"
+diff --git a/ios/Runner.xcodeproj/project.pbxproj b/ios/Runner.xcodeproj/project.pbxproj
+new file mode 100644
+index 0000000..8bfaf8f
+--- /dev/null
++++ b/ios/Runner.xcodeproj/project.pbxproj
+@@ -0,0 +1,471 @@
++// !$*UTF8*$!
++{
++	archiveVersion = 1;
++	classes = {
++	};
++	objectVersion = 46;
++	objects = {
++
++/* Begin PBXBuildFile section */
++		1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */; };
++		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
++		74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74858FAE1ED2DC5600515810 /* AppDelegate.swift */; };
++		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
++		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
++		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
++/* End PBXBuildFile section */
++
++/* Begin PBXCopyFilesBuildPhase section */
++		9705A1C41CF9048500538489 /* Embed Frameworks */ = {
++			isa = PBXCopyFilesBuildPhase;
++			buildActionMask = 2147483647;
++			dstPath = "";
++			dstSubfolderSpec = 10;
++			files = (
++			);
++			name = "Embed Frameworks";
++			runOnlyForDeploymentPostprocessing = 0;
++		};
++/* End PBXCopyFilesBuildPhase section */
++
++/* Begin PBXFileReference section */
++		1498D2321E8E86230040F4C2 /* GeneratedPluginRegistrant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeneratedPluginRegistrant.h; sourceTree = "<group>"; };
++		1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeneratedPluginRegistrant.m; sourceTree = "<group>"; };
++		3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AppFrameworkInfo.plist; path = Flutter/AppFrameworkInfo.plist; sourceTree = "<group>"; };
++		74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Runner-Bridging-Header.h"; sourceTree = "<group>"; };
++		74858FAE1ED2DC5600515810 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
++		7AFA3C8E1D35360C0083082E /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = Flutter/Release.xcconfig; sourceTree = "<group>"; };
++		9740EEB21CF90195004384FC /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = Flutter/Debug.xcconfig; sourceTree = "<group>"; };
++		9740EEB31CF90195004384FC /* Generated.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Generated.xcconfig; path = Flutter/Generated.xcconfig; sourceTree = "<group>"; };
++		97C146EE1CF9000F007C117D /* Runner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Runner.app; sourceTree = BUILT_PRODUCTS_DIR; };
++		97C146FB1CF9000F007C117D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
++		97C146FD1CF9000F007C117D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
++		97C147001CF9000F007C117D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
++		97C147021CF9000F007C117D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
++/* End PBXFileReference section */
++
++/* Begin PBXFrameworksBuildPhase section */
++		97C146EB1CF9000F007C117D /* Frameworks */ = {
++			isa = PBXFrameworksBuildPhase;
++			buildActionMask = 2147483647;
++			files = (
++			);
++			runOnlyForDeploymentPostprocessing = 0;
++		};
++/* End PBXFrameworksBuildPhase section */
++
++/* Begin PBXGroup section */
++		9740EEB11CF90186004384FC /* Flutter */ = {
++			isa = PBXGroup;
++			children = (
++				3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */,
++				9740EEB21CF90195004384FC /* Debug.xcconfig */,
++				7AFA3C8E1D35360C0083082E /* Release.xcconfig */,
++				9740EEB31CF90195004384FC /* Generated.xcconfig */,
++			);
++			name = Flutter;
++			sourceTree = "<group>";
++		};
++		97C146E51CF9000F007C117D = {
++			isa = PBXGroup;
++			children = (
++				9740EEB11CF90186004384FC /* Flutter */,
++				97C146F01CF9000F007C117D /* Runner */,
++				97C146EF1CF9000F007C117D /* Products */,
++			);
++			sourceTree = "<group>";
++		};
++		97C146EF1CF9000F007C117D /* Products */ = {
++			isa = PBXGroup;
++			children = (
++				97C146EE1CF9000F007C117D /* Runner.app */,
++			);
++			name = Products;
++			sourceTree = "<group>";
++		};
++		97C146F01CF9000F007C117D /* Runner */ = {
++			isa = PBXGroup;
++			children = (
++				97C146FA1CF9000F007C117D /* Main.storyboard */,
++				97C146FD1CF9000F007C117D /* Assets.xcassets */,
++				97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */,
++				97C147021CF9000F007C117D /* Info.plist */,
++				1498D2321E8E86230040F4C2 /* GeneratedPluginRegistrant.h */,
++				1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */,
++				74858FAE1ED2DC5600515810 /* AppDelegate.swift */,
++				74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */,
++			);
++			path = Runner;
++			sourceTree = "<group>";
++		};
++/* End PBXGroup section */
++
++/* Begin PBXNativeTarget section */
++		97C146ED1CF9000F007C117D /* Runner */ = {
++			isa = PBXNativeTarget;
++			buildConfigurationList = 97C147051CF9000F007C117D /* Build configuration list for PBXNativeTarget "Runner" */;
++			buildPhases = (
++				9740EEB61CF901F6004384FC /* Run Script */,
++				97C146EA1CF9000F007C117D /* Sources */,
++				97C146EB1CF9000F007C117D /* Frameworks */,
++				97C146EC1CF9000F007C117D /* Resources */,
++				9705A1C41CF9048500538489 /* Embed Frameworks */,
++				3B06AD1E1E4923F5004D2608 /* Thin Binary */,
++			);
++			buildRules = (
++			);
++			dependencies = (
++			);
++			name = Runner;
++			productName = Runner;
++			productReference = 97C146EE1CF9000F007C117D /* Runner.app */;
++			productType = "com.apple.product-type.application";
++		};
++/* End PBXNativeTarget section */
++
++/* Begin PBXProject section */
++		97C146E61CF9000F007C117D /* Project object */ = {
++			isa = PBXProject;
++			attributes = {
++				LastUpgradeCheck = 1020;
++				ORGANIZATIONNAME = "";
++				TargetAttributes = {
++					97C146ED1CF9000F007C117D = {
++						CreatedOnToolsVersion = 7.3.1;
++						LastSwiftMigration = 1100;
++					};
++				};
++			};
++			buildConfigurationList = 97C146E91CF9000F007C117D /* Build configuration list for PBXProject "Runner" */;
++			compatibilityVersion = "Xcode 9.3";
++			developmentRegion = en;
++			hasScannedForEncodings = 0;
++			knownRegions = (
++				en,
++				Base,
++			);
++			mainGroup = 97C146E51CF9000F007C117D;
++			productRefGroup = 97C146EF1CF9000F007C117D /* Products */;
++			projectDirPath = "";
++			projectRoot = "";
++			targets = (
++				97C146ED1CF9000F007C117D /* Runner */,
++			);
++		};
++/* End PBXProject section */
++
++/* Begin PBXResourcesBuildPhase section */
++		97C146EC1CF9000F007C117D /* Resources */ = {
++			isa = PBXResourcesBuildPhase;
++			buildActionMask = 2147483647;
++			files = (
++				97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */,
++				3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */,
++				97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */,
++				97C146FC1CF9000F007C117D /* Main.storyboard in Resources */,
++			);
++			runOnlyForDeploymentPostprocessing = 0;
++		};
++/* End PBXResourcesBuildPhase section */
++
++/* Begin PBXShellScriptBuildPhase section */
++		3B06AD1E1E4923F5004D2608 /* Thin Binary */ = {
++			isa = PBXShellScriptBuildPhase;
++			buildActionMask = 2147483647;
++			files = (
++			);
++			inputPaths = (
++			);
++			name = "Thin Binary";
++			outputPaths = (
++			);
++			runOnlyForDeploymentPostprocessing = 0;
++			shellPath = /bin/sh;
++			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" embed_and_thin";
++		};
++		9740EEB61CF901F6004384FC /* Run Script */ = {
++			isa = PBXShellScriptBuildPhase;
++			buildActionMask = 2147483647;
++			files = (
++			);
++			inputPaths = (
++			);
++			name = "Run Script";
++			outputPaths = (
++			);
++			runOnlyForDeploymentPostprocessing = 0;
++			shellPath = /bin/sh;
++			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" build";
++		};
++/* End PBXShellScriptBuildPhase section */
++
++/* Begin PBXSourcesBuildPhase section */
++		97C146EA1CF9000F007C117D /* Sources */ = {
++			isa = PBXSourcesBuildPhase;
++			buildActionMask = 2147483647;
++			files = (
++				74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */,
++				1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */,
++			);
++			runOnlyForDeploymentPostprocessing = 0;
++		};
++/* End PBXSourcesBuildPhase section */
++
++/* Begin PBXVariantGroup section */
++		97C146FA1CF9000F007C117D /* Main.storyboard */ = {
++			isa = PBXVariantGroup;
++			children = (
++				97C146FB1CF9000F007C117D /* Base */,
++			);
++			name = Main.storyboard;
++			sourceTree = "<group>";
++		};
++		97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */ = {
++			isa = PBXVariantGroup;
++			children = (
++				97C147001CF9000F007C117D /* Base */,
++			);
++			name = LaunchScreen.storyboard;
++			sourceTree = "<group>";
++		};
++/* End PBXVariantGroup section */
++
++/* Begin XCBuildConfiguration section */
++		249021D3217E4FDB00AE95B9 /* Profile */ = {
++			isa = XCBuildConfiguration;
++			buildSettings = {
++				ALWAYS_SEARCH_USER_PATHS = NO;
++				CLANG_ANALYZER_NONNULL = YES;
++				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
++				CLANG_CXX_LIBRARY = "libc++";
++				CLANG_ENABLE_MODULES = YES;
++				CLANG_ENABLE_OBJC_ARC = YES;
++				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
++				CLANG_WARN_BOOL_CONVERSION = YES;
++				CLANG_WARN_COMMA = YES;
++				CLANG_WARN_CONSTANT_CONVERSION = YES;
++				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
++				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
++				CLANG_WARN_EMPTY_BODY = YES;
++				CLANG_WARN_ENUM_CONVERSION = YES;
++				CLANG_WARN_INFINITE_RECURSION = YES;
++				CLANG_WARN_INT_CONVERSION = YES;
++				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
++				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
++				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
++				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
++				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
++				CLANG_WARN_STRICT_PROTOTYPES = YES;
++				CLANG_WARN_SUSPICIOUS_MOVE = YES;
++				CLANG_WARN_UNREACHABLE_CODE = YES;
++				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
++				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
++				COPY_PHASE_STRIP = NO;
++				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
++				ENABLE_NS_ASSERTIONS = NO;
++				ENABLE_STRICT_OBJC_MSGSEND = YES;
++				GCC_C_LANGUAGE_STANDARD = gnu99;
++				GCC_NO_COMMON_BLOCKS = YES;
++				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
++				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
++				GCC_WARN_UNDECLARED_SELECTOR = YES;
++				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
++				GCC_WARN_UNUSED_FUNCTION = YES;
++				GCC_WARN_UNUSED_VARIABLE = YES;
++				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
++				MTL_ENABLE_DEBUG_INFO = NO;
++				SDKROOT = iphoneos;
++				SUPPORTED_PLATFORMS = iphoneos;
++				TARGETED_DEVICE_FAMILY = "1,2";
++				VALIDATE_PRODUCT = YES;
++			};
++			name = Profile;
++		};
++		249021D4217E4FDB00AE95B9 /* Profile */ = {
++			isa = XCBuildConfiguration;
++			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
++			buildSettings = {
++				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
++				CLANG_ENABLE_MODULES = YES;
++				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
++				ENABLE_BITCODE = NO;
++				INFOPLIST_FILE = Runner/Info.plist;
++				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
++				PRODUCT_BUNDLE_IDENTIFIER = com.example.myTrainingsApp;
++				PRODUCT_NAME = "$(TARGET_NAME)";
++				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
++				SWIFT_VERSION = 5.0;
++				VERSIONING_SYSTEM = "apple-generic";
++			};
++			name = Profile;
++		};
++		97C147031CF9000F007C117D /* Debug */ = {
++			isa = XCBuildConfiguration;
++			buildSettings = {
++				ALWAYS_SEARCH_USER_PATHS = NO;
++				CLANG_ANALYZER_NONNULL = YES;
++				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
++				CLANG_CXX_LIBRARY = "libc++";
++				CLANG_ENABLE_MODULES = YES;
++				CLANG_ENABLE_OBJC_ARC = YES;
++				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
++				CLANG_WARN_BOOL_CONVERSION = YES;
++				CLANG_WARN_COMMA = YES;
++				CLANG_WARN_CONSTANT_CONVERSION = YES;
++				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
++				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
++				CLANG_WARN_EMPTY_BODY = YES;
++				CLANG_WARN_ENUM_CONVERSION = YES;
++				CLANG_WARN_INFINITE_RECURSION = YES;
++				CLANG_WARN_INT_CONVERSION = YES;
++				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
++				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
++				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
++				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
++				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
++				CLANG_WARN_STRICT_PROTOTYPES = YES;
++				CLANG_WARN_SUSPICIOUS_MOVE = YES;
++				CLANG_WARN_UNREACHABLE_CODE = YES;
++				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
++				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
++				COPY_PHASE_STRIP = NO;
++				DEBUG_INFORMATION_FORMAT = dwarf;
++				ENABLE_STRICT_OBJC_MSGSEND = YES;
++				ENABLE_TESTABILITY = YES;
++				GCC_C_LANGUAGE_STANDARD = gnu99;
++				GCC_DYNAMIC_NO_PIC = NO;
++				GCC_NO_COMMON_BLOCKS = YES;
++				GCC_OPTIMIZATION_LEVEL = 0;
++				GCC_PREPROCESSOR_DEFINITIONS = (
++					"DEBUG=1",
++					"$(inherited)",
++				);
++				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
++				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
++				GCC_WARN_UNDECLARED_SELECTOR = YES;
++				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
++				GCC_WARN_UNUSED_FUNCTION = YES;
++				GCC_WARN_UNUSED_VARIABLE = YES;
++				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
++				MTL_ENABLE_DEBUG_INFO = YES;
++				ONLY_ACTIVE_ARCH = YES;
++				SDKROOT = iphoneos;
++				TARGETED_DEVICE_FAMILY = "1,2";
++			};
++			name = Debug;
++		};
++		97C147041CF9000F007C117D /* Release */ = {
++			isa = XCBuildConfiguration;
++			buildSettings = {
++				ALWAYS_SEARCH_USER_PATHS = NO;
++				CLANG_ANALYZER_NONNULL = YES;
++				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
++				CLANG_CXX_LIBRARY = "libc++";
++				CLANG_ENABLE_MODULES = YES;
++				CLANG_ENABLE_OBJC_ARC = YES;
++				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
++				CLANG_WARN_BOOL_CONVERSION = YES;
++				CLANG_WARN_COMMA = YES;
++				CLANG_WARN_CONSTANT_CONVERSION = YES;
++				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
++				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
++				CLANG_WARN_EMPTY_BODY = YES;
++				CLANG_WARN_ENUM_CONVERSION = YES;
++				CLANG_WARN_INFINITE_RECURSION = YES;
++				CLANG_WARN_INT_CONVERSION = YES;
++				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
++				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
++				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
++				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
++				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
++				CLANG_WARN_STRICT_PROTOTYPES = YES;
++				CLANG_WARN_SUSPICIOUS_MOVE = YES;
++				CLANG_WARN_UNREACHABLE_CODE = YES;
++				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
++				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
++				COPY_PHASE_STRIP = NO;
++				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
++				ENABLE_NS_ASSERTIONS = NO;
++				ENABLE_STRICT_OBJC_MSGSEND = YES;
++				GCC_C_LANGUAGE_STANDARD = gnu99;
++				GCC_NO_COMMON_BLOCKS = YES;
++				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
++				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
++				GCC_WARN_UNDECLARED_SELECTOR = YES;
++				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
++				GCC_WARN_UNUSED_FUNCTION = YES;
++				GCC_WARN_UNUSED_VARIABLE = YES;
++				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
++				MTL_ENABLE_DEBUG_INFO = NO;
++				SDKROOT = iphoneos;
++				SUPPORTED_PLATFORMS = iphoneos;
++				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
++				TARGETED_DEVICE_FAMILY = "1,2";
++				VALIDATE_PRODUCT = YES;
++			};
++			name = Release;
++		};
++		97C147061CF9000F007C117D /* Debug */ = {
++			isa = XCBuildConfiguration;
++			baseConfigurationReference = 9740EEB21CF90195004384FC /* Debug.xcconfig */;
++			buildSettings = {
++				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
++				CLANG_ENABLE_MODULES = YES;
++				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
++				ENABLE_BITCODE = NO;
++				INFOPLIST_FILE = Runner/Info.plist;
++				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
++				PRODUCT_BUNDLE_IDENTIFIER = com.example.myTrainingsApp;
++				PRODUCT_NAME = "$(TARGET_NAME)";
++				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
++				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
++				SWIFT_VERSION = 5.0;
++				VERSIONING_SYSTEM = "apple-generic";
++			};
++			name = Debug;
++		};
++		97C147071CF9000F007C117D /* Release */ = {
++			isa = XCBuildConfiguration;
++			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
++			buildSettings = {
++				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
++				CLANG_ENABLE_MODULES = YES;
++				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
++				ENABLE_BITCODE = NO;
++				INFOPLIST_FILE = Runner/Info.plist;
++				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
++				PRODUCT_BUNDLE_IDENTIFIER = com.example.myTrainingsApp;
++				PRODUCT_NAME = "$(TARGET_NAME)";
++				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
++				SWIFT_VERSION = 5.0;
++				VERSIONING_SYSTEM = "apple-generic";
++			};
++			name = Release;
++		};
++/* End XCBuildConfiguration section */
++
++/* Begin XCConfigurationList section */
++		97C146E91CF9000F007C117D /* Build configuration list for PBXProject "Runner" */ = {
++			isa = XCConfigurationList;
++			buildConfigurations = (
++				97C147031CF9000F007C117D /* Debug */,
++				97C147041CF9000F007C117D /* Release */,
++				249021D3217E4FDB00AE95B9 /* Profile */,
++			);
++			defaultConfigurationIsVisible = 0;
++			defaultConfigurationName = Release;
++		};
++		97C147051CF9000F007C117D /* Build configuration list for PBXNativeTarget "Runner" */ = {
++			isa = XCConfigurationList;
++			buildConfigurations = (
++				97C147061CF9000F007C117D /* Debug */,
++				97C147071CF9000F007C117D /* Release */,
++				249021D4217E4FDB00AE95B9 /* Profile */,
++			);
++			defaultConfigurationIsVisible = 0;
++			defaultConfigurationName = Release;
++		};
++/* End XCConfigurationList section */
++	};
++	rootObject = 97C146E61CF9000F007C117D /* Project object */;
++}
+diff --git a/ios/Runner.xcodeproj/project.xcworkspace/contents.xcworkspacedata b/ios/Runner.xcodeproj/project.xcworkspace/contents.xcworkspacedata
+new file mode 100644
+index 0000000..919434a
+--- /dev/null
++++ b/ios/Runner.xcodeproj/project.xcworkspace/contents.xcworkspacedata
+@@ -0,0 +1,7 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<Workspace
++   version = "1.0">
++   <FileRef
++      location = "self:">
++   </FileRef>
++</Workspace>
+diff --git a/ios/Runner.xcodeproj/project.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist b/ios/Runner.xcodeproj/project.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist
+new file mode 100644
+index 0000000..18d9810
+--- /dev/null
++++ b/ios/Runner.xcodeproj/project.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist
+@@ -0,0 +1,8 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
++<plist version="1.0">
++<dict>
++	<key>IDEDidComputeMac32BitWarning</key>
++	<true/>
++</dict>
++</plist>
+diff --git a/ios/Runner.xcodeproj/project.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings b/ios/Runner.xcodeproj/project.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings
+new file mode 100644
+index 0000000..f9b0d7c
+--- /dev/null
++++ b/ios/Runner.xcodeproj/project.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings
+@@ -0,0 +1,8 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
++<plist version="1.0">
++<dict>
++	<key>PreviewsEnabled</key>
++	<false/>
++</dict>
++</plist>
+diff --git a/ios/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme b/ios/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme
+new file mode 100644
+index 0000000..a28140c
+--- /dev/null
++++ b/ios/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme
+@@ -0,0 +1,91 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<Scheme
++   LastUpgradeVersion = "1020"
++   version = "1.3">
++   <BuildAction
++      parallelizeBuildables = "YES"
++      buildImplicitDependencies = "YES">
++      <BuildActionEntries>
++         <BuildActionEntry
++            buildForTesting = "YES"
++            buildForRunning = "YES"
++            buildForProfiling = "YES"
++            buildForArchiving = "YES"
++            buildForAnalyzing = "YES">
++            <BuildableReference
++               BuildableIdentifier = "primary"
++               BlueprintIdentifier = "97C146ED1CF9000F007C117D"
++               BuildableName = "Runner.app"
++               BlueprintName = "Runner"
++               ReferencedContainer = "container:Runner.xcodeproj">
++            </BuildableReference>
++         </BuildActionEntry>
++      </BuildActionEntries>
++   </BuildAction>
++   <TestAction
++      buildConfiguration = "Debug"
++      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
++      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
++      shouldUseLaunchSchemeArgsEnv = "YES">
++      <Testables>
++      </Testables>
++      <MacroExpansion>
++         <BuildableReference
++            BuildableIdentifier = "primary"
++            BlueprintIdentifier = "97C146ED1CF9000F007C117D"
++            BuildableName = "Runner.app"
++            BlueprintName = "Runner"
++            ReferencedContainer = "container:Runner.xcodeproj">
++         </BuildableReference>
++      </MacroExpansion>
++      <AdditionalOptions>
++      </AdditionalOptions>
++   </TestAction>
++   <LaunchAction
++      buildConfiguration = "Debug"
++      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
++      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
++      launchStyle = "0"
++      useCustomWorkingDirectory = "NO"
++      ignoresPersistentStateOnLaunch = "NO"
++      debugDocumentVersioning = "YES"
++      debugServiceExtension = "internal"
++      allowLocationSimulation = "YES">
++      <BuildableProductRunnable
++         runnableDebuggingMode = "0">
++         <BuildableReference
++            BuildableIdentifier = "primary"
++            BlueprintIdentifier = "97C146ED1CF9000F007C117D"
++            BuildableName = "Runner.app"
++            BlueprintName = "Runner"
++            ReferencedContainer = "container:Runner.xcodeproj">
++         </BuildableReference>
++      </BuildableProductRunnable>
++      <AdditionalOptions>
++      </AdditionalOptions>
++   </LaunchAction>
++   <ProfileAction
++      buildConfiguration = "Profile"
++      shouldUseLaunchSchemeArgsEnv = "YES"
++      savedToolIdentifier = ""
++      useCustomWorkingDirectory = "NO"
++      debugDocumentVersioning = "YES">
++      <BuildableProductRunnable
++         runnableDebuggingMode = "0">
++         <BuildableReference
++            BuildableIdentifier = "primary"
++            BlueprintIdentifier = "97C146ED1CF9000F007C117D"
++            BuildableName = "Runner.app"
++            BlueprintName = "Runner"
++            ReferencedContainer = "container:Runner.xcodeproj">
++         </BuildableReference>
++      </BuildableProductRunnable>
++   </ProfileAction>
++   <AnalyzeAction
++      buildConfiguration = "Debug">
++   </AnalyzeAction>
++   <ArchiveAction
++      buildConfiguration = "Release"
++      revealArchiveInOrganizer = "YES">
++   </ArchiveAction>
++</Scheme>
+diff --git a/ios/Runner.xcworkspace/contents.xcworkspacedata b/ios/Runner.xcworkspace/contents.xcworkspacedata
+new file mode 100644
+index 0000000..1d526a1
+--- /dev/null
++++ b/ios/Runner.xcworkspace/contents.xcworkspacedata
+@@ -0,0 +1,7 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<Workspace
++   version = "1.0">
++   <FileRef
++      location = "group:Runner.xcodeproj">
++   </FileRef>
++</Workspace>
+diff --git a/ios/Runner.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist b/ios/Runner.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist
+new file mode 100644
+index 0000000..18d9810
+--- /dev/null
++++ b/ios/Runner.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist
+@@ -0,0 +1,8 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
++<plist version="1.0">
++<dict>
++	<key>IDEDidComputeMac32BitWarning</key>
++	<true/>
++</dict>
++</plist>
+diff --git a/ios/Runner.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings b/ios/Runner.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings
+new file mode 100644
+index 0000000..f9b0d7c
+--- /dev/null
++++ b/ios/Runner.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings
+@@ -0,0 +1,8 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
++<plist version="1.0">
++<dict>
++	<key>PreviewsEnabled</key>
++	<false/>
++</dict>
++</plist>
+diff --git a/ios/Runner/AppDelegate.swift b/ios/Runner/AppDelegate.swift
+new file mode 100644
+index 0000000..70693e4
+--- /dev/null
++++ b/ios/Runner/AppDelegate.swift
+@@ -0,0 +1,13 @@
++import UIKit
++import Flutter
++
++@UIApplicationMain
++@objc class AppDelegate: FlutterAppDelegate {
++  override func application(
++    _ application: UIApplication,
++    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
++  ) -> Bool {
++    GeneratedPluginRegistrant.register(with: self)
++    return super.application(application, didFinishLaunchingWithOptions: launchOptions)
++  }
++}
+diff --git a/ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json b/ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json
+new file mode 100644
+index 0000000..d36b1fa
+--- /dev/null
++++ b/ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json
+@@ -0,0 +1,122 @@
++{
++  "images" : [
++    {
++      "size" : "20x20",
++      "idiom" : "iphone",
++      "filename" : "Icon-App-20x20@2x.png",
++      "scale" : "2x"
++    },
++    {
++      "size" : "20x20",
++      "idiom" : "iphone",
++      "filename" : "Icon-App-20x20@3x.png",
++      "scale" : "3x"
++    },
++    {
++      "size" : "29x29",
++      "idiom" : "iphone",
++      "filename" : "Icon-App-29x29@1x.png",
++      "scale" : "1x"
++    },
++    {
++      "size" : "29x29",
++      "idiom" : "iphone",
++      "filename" : "Icon-App-29x29@2x.png",
++      "scale" : "2x"
++    },
++    {
++      "size" : "29x29",
++      "idiom" : "iphone",
++      "filename" : "Icon-App-29x29@3x.png",
++      "scale" : "3x"
++    },
++    {
++      "size" : "40x40",
++      "idiom" : "iphone",
++      "filename" : "Icon-App-40x40@2x.png",
++      "scale" : "2x"
++    },
++    {
++      "size" : "40x40",
++      "idiom" : "iphone",
++      "filename" : "Icon-App-40x40@3x.png",
++      "scale" : "3x"
++    },
++    {
++      "size" : "60x60",
++      "idiom" : "iphone",
++      "filename" : "Icon-App-60x60@2x.png",
++      "scale" : "2x"
++    },
++    {
++      "size" : "60x60",
++      "idiom" : "iphone",
++      "filename" : "Icon-App-60x60@3x.png",
++      "scale" : "3x"
++    },
++    {
++      "size" : "20x20",
++      "idiom" : "ipad",
++      "filename" : "Icon-App-20x20@1x.png",
++      "scale" : "1x"
++    },
++    {
++      "size" : "20x20",
++      "idiom" : "ipad",
++      "filename" : "Icon-App-20x20@2x.png",
++      "scale" : "2x"
++    },
++    {
++      "size" : "29x29",
++      "idiom" : "ipad",
++      "filename" : "Icon-App-29x29@1x.png",
++      "scale" : "1x"
++    },
++    {
++      "size" : "29x29",
++      "idiom" : "ipad",
++      "filename" : "Icon-App-29x29@2x.png",
++      "scale" : "2x"
++    },
++    {
++      "size" : "40x40",
++      "idiom" : "ipad",
++      "filename" : "Icon-App-40x40@1x.png",
++      "scale" : "1x"
++    },
++    {
++      "size" : "40x40",
++      "idiom" : "ipad",
++      "filename" : "Icon-App-40x40@2x.png",
++      "scale" : "2x"
++    },
++    {
++      "size" : "76x76",
++      "idiom" : "ipad",
++      "filename" : "Icon-App-76x76@1x.png",
++      "scale" : "1x"
++    },
++    {
++      "size" : "76x76",
++      "idiom" : "ipad",
++      "filename" : "Icon-App-76x76@2x.png",
++      "scale" : "2x"
++    },
++    {
++      "size" : "83.5x83.5",
++      "idiom" : "ipad",
++      "filename" : "Icon-App-83.5x83.5@2x.png",
++      "scale" : "2x"
++    },
++    {
++      "size" : "1024x1024",
++      "idiom" : "ios-marketing",
++      "filename" : "Icon-App-1024x1024@1x.png",
++      "scale" : "1x"
++    }
++  ],
++  "info" : {
++    "version" : 1,
++    "author" : "xcode"
++  }
++}
+diff --git a/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-1024x1024@1x.png b/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-1024x1024@1x.png
+new file mode 100644
+index 0000000..dc9ada4
+Binary files /dev/null and b/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-1024x1024@1x.png differ
+diff --git a/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@1x.png b/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@1x.png
+new file mode 100644
+index 0000000..28c6bf0
+Binary files /dev/null and b/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@1x.png differ
+diff --git a/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@2x.png b/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@2x.png
+new file mode 100644
+index 0000000..2ccbfd9
+Binary files /dev/null and b/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@2x.png differ
+diff --git a/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@3x.png b/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@3x.png
+new file mode 100644
+index 0000000..f091b6b
+Binary files /dev/null and b/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@3x.png differ
+diff --git a/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@1x.png b/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@1x.png
+new file mode 100644
+index 0000000..4cde121
+Binary files /dev/null and b/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@1x.png differ
+diff --git a/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@2x.png b/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@2x.png
+new file mode 100644
+index 0000000..d0ef06e
+Binary files /dev/null and b/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@2x.png differ
+diff --git a/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@3x.png b/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@3x.png
+new file mode 100644
+index 0000000..dcdc230
+Binary files /dev/null and b/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@3x.png differ
+diff --git a/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@1x.png b/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@1x.png
+new file mode 100644
+index 0000000..2ccbfd9
+Binary files /dev/null and b/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@1x.png differ
+diff --git a/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@2x.png b/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@2x.png
+new file mode 100644
+index 0000000..c8f9ed8
+Binary files /dev/null and b/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@2x.png differ
+diff --git a/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@3x.png b/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@3x.png
+new file mode 100644
+index 0000000..a6d6b86
+Binary files /dev/null and b/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@3x.png differ
+diff --git a/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60@2x.png b/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60@2x.png
+new file mode 100644
+index 0000000..a6d6b86
+Binary files /dev/null and b/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60@2x.png differ
+diff --git a/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60@3x.png b/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60@3x.png
+new file mode 100644
+index 0000000..75b2d16
+Binary files /dev/null and b/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60@3x.png differ
+diff --git a/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-76x76@1x.png b/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-76x76@1x.png
+new file mode 100644
+index 0000000..c4df70d
+Binary files /dev/null and b/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-76x76@1x.png differ
+diff --git a/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-76x76@2x.png b/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-76x76@2x.png
+new file mode 100644
+index 0000000..6a84f41
+Binary files /dev/null and b/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-76x76@2x.png differ
+diff --git a/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-83.5x83.5@2x.png b/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-83.5x83.5@2x.png
+new file mode 100644
+index 0000000..d0e1f58
+Binary files /dev/null and b/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-83.5x83.5@2x.png differ
+diff --git a/ios/Runner/Assets.xcassets/LaunchImage.imageset/Contents.json b/ios/Runner/Assets.xcassets/LaunchImage.imageset/Contents.json
+new file mode 100644
+index 0000000..0bedcf2
+--- /dev/null
++++ b/ios/Runner/Assets.xcassets/LaunchImage.imageset/Contents.json
+@@ -0,0 +1,23 @@
++{
++  "images" : [
++    {
++      "idiom" : "universal",
++      "filename" : "LaunchImage.png",
++      "scale" : "1x"
++    },
++    {
++      "idiom" : "universal",
++      "filename" : "LaunchImage@2x.png",
++      "scale" : "2x"
++    },
++    {
++      "idiom" : "universal",
++      "filename" : "LaunchImage@3x.png",
++      "scale" : "3x"
++    }
++  ],
++  "info" : {
++    "version" : 1,
++    "author" : "xcode"
++  }
++}
+diff --git a/ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage.png b/ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage.png
+new file mode 100644
+index 0000000..9da19ea
+Binary files /dev/null and b/ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage.png differ
+diff --git a/ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage@2x.png b/ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage@2x.png
+new file mode 100644
+index 0000000..9da19ea
+Binary files /dev/null and b/ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage@2x.png differ
+diff --git a/ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage@3x.png b/ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage@3x.png
+new file mode 100644
+index 0000000..9da19ea
+Binary files /dev/null and b/ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage@3x.png differ
+diff --git a/ios/Runner/Assets.xcassets/LaunchImage.imageset/README.md b/ios/Runner/Assets.xcassets/LaunchImage.imageset/README.md
+new file mode 100644
+index 0000000..89c2725
+--- /dev/null
++++ b/ios/Runner/Assets.xcassets/LaunchImage.imageset/README.md
+@@ -0,0 +1,5 @@
++# Launch Screen Assets
++
++You can customize the launch screen with your own desired assets by replacing the image files in this directory.
++
++You can also do it by opening your Flutter project's Xcode project with `open ios/Runner.xcworkspace`, selecting `Runner/Assets.xcassets` in the Project Navigator and dropping in the desired images.
+\ No newline at end of file
+diff --git a/ios/Runner/Base.lproj/LaunchScreen.storyboard b/ios/Runner/Base.lproj/LaunchScreen.storyboard
+new file mode 100644
+index 0000000..f2e259c
+--- /dev/null
++++ b/ios/Runner/Base.lproj/LaunchScreen.storyboard
+@@ -0,0 +1,37 @@
++<?xml version="1.0" encoding="UTF-8" standalone="no"?>
++<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
++    <dependencies>
++        <deployment identifier="iOS"/>
++        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
++    </dependencies>
++    <scenes>
++        <!--View Controller-->
++        <scene sceneID="EHf-IW-A2E">
++            <objects>
++                <viewController id="01J-lp-oVM" sceneMemberID="viewController">
++                    <layoutGuides>
++                        <viewControllerLayoutGuide type="top" id="Ydg-fD-yQy"/>
++                        <viewControllerLayoutGuide type="bottom" id="xbc-2k-c8Z"/>
++                    </layoutGuides>
++                    <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
++                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
++                        <subviews>
++                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="LaunchImage" translatesAutoresizingMaskIntoConstraints="NO" id="YRO-k0-Ey4">
++                            </imageView>
++                        </subviews>
++                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
++                        <constraints>
++                            <constraint firstItem="YRO-k0-Ey4" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="1a2-6s-vTC"/>
++                            <constraint firstItem="YRO-k0-Ey4" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="4X2-HB-R7a"/>
++                        </constraints>
++                    </view>
++                </viewController>
++                <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
++            </objects>
++            <point key="canvasLocation" x="53" y="375"/>
++        </scene>
++    </scenes>
++    <resources>
++        <image name="LaunchImage" width="168" height="185"/>
++    </resources>
++</document>
+diff --git a/ios/Runner/Base.lproj/Main.storyboard b/ios/Runner/Base.lproj/Main.storyboard
+new file mode 100644
+index 0000000..f3c2851
+--- /dev/null
++++ b/ios/Runner/Base.lproj/Main.storyboard
+@@ -0,0 +1,26 @@
++<?xml version="1.0" encoding="UTF-8" standalone="no"?>
++<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
++    <dependencies>
++        <deployment identifier="iOS"/>
++        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
++    </dependencies>
++    <scenes>
++        <!--Flutter View Controller-->
++        <scene sceneID="tne-QT-ifu">
++            <objects>
++                <viewController id="BYZ-38-t0r" customClass="FlutterViewController" sceneMemberID="viewController">
++                    <layoutGuides>
++                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
++                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
++                    </layoutGuides>
++                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
++                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
++                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
++                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
++                    </view>
++                </viewController>
++                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
++            </objects>
++        </scene>
++    </scenes>
++</document>
+diff --git a/ios/Runner/Info.plist b/ios/Runner/Info.plist
+new file mode 100644
+index 0000000..7af2889
+--- /dev/null
++++ b/ios/Runner/Info.plist
+@@ -0,0 +1,45 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
++<plist version="1.0">
++<dict>
++	<key>CFBundleDevelopmentRegion</key>
++	<string>$(DEVELOPMENT_LANGUAGE)</string>
++	<key>CFBundleExecutable</key>
++	<string>$(EXECUTABLE_NAME)</string>
++	<key>CFBundleIdentifier</key>
++	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
++	<key>CFBundleInfoDictionaryVersion</key>
++	<string>6.0</string>
++	<key>CFBundleName</key>
++	<string>my_trainings_app</string>
++	<key>CFBundlePackageType</key>
++	<string>APPL</string>
++	<key>CFBundleShortVersionString</key>
++	<string>$(FLUTTER_BUILD_NAME)</string>
++	<key>CFBundleSignature</key>
++	<string>????</string>
++	<key>CFBundleVersion</key>
++	<string>$(FLUTTER_BUILD_NUMBER)</string>
++	<key>LSRequiresIPhoneOS</key>
++	<true/>
++	<key>UILaunchStoryboardName</key>
++	<string>LaunchScreen</string>
++	<key>UIMainStoryboardFile</key>
++	<string>Main</string>
++	<key>UISupportedInterfaceOrientations</key>
++	<array>
++		<string>UIInterfaceOrientationPortrait</string>
++		<string>UIInterfaceOrientationLandscapeLeft</string>
++		<string>UIInterfaceOrientationLandscapeRight</string>
++	</array>
++	<key>UISupportedInterfaceOrientations~ipad</key>
++	<array>
++		<string>UIInterfaceOrientationPortrait</string>
++		<string>UIInterfaceOrientationPortraitUpsideDown</string>
++		<string>UIInterfaceOrientationLandscapeLeft</string>
++		<string>UIInterfaceOrientationLandscapeRight</string>
++	</array>
++	<key>UIViewControllerBasedStatusBarAppearance</key>
++	<false/>
++</dict>
++</plist>
+diff --git a/ios/Runner/Runner-Bridging-Header.h b/ios/Runner/Runner-Bridging-Header.h
+new file mode 100644
+index 0000000..308a2a5
+--- /dev/null
++++ b/ios/Runner/Runner-Bridging-Header.h
+@@ -0,0 +1 @@
++#import "GeneratedPluginRegistrant.h"
+diff --git a/lib/features/landing/screens/home_screen.dart b/lib/features/landing/screens/home_screen.dart
+new file mode 100644
+index 0000000..64b4b4c
+--- /dev/null
++++ b/lib/features/landing/screens/home_screen.dart
+@@ -0,0 +1,127 @@
++import 'package:flutter/material.dart';
++import 'package:my_trainings_app/features/landing/widgets/home_carousel_widget.dart';
++import 'package:my_trainings_app/utils/colors.dart';
++
++class HomeScreen extends StatefulWidget {
++  static const String route = '/home_screen';
++
++  const HomeScreen({Key? key}) : super(key: key);
++
++  @override
++  _HomeScreenState createState() => _HomeScreenState();
++}
++
++class _HomeScreenState extends State<HomeScreen> {
++  @override
++  Widget build(BuildContext context) {
++    return Scaffold(
++      body: CustomScrollView(
++        slivers: [
++          SliverPersistentHeader(
++            delegate: _ThisSliverPersistentHeaderDelegate(),
++            pinned: true,
++          ),
++          SliverPersistentHeader(
++            delegate: _SliverCarouselDelegate(),
++            floating: false,
++            pinned: false,
++          ),
++        ],
++      ),
++    );
++  }
++}
++
++class _ThisSliverPersistentHeaderDelegate
++    extends SliverPersistentHeaderDelegate {
++  @override
++  Widget build(
++      BuildContext context, double shrinkOffset, bool overlapsContent) {
++    return const _ThisTopHeadingWidget();
++  }
++
++  @override
++  double get maxExtent => 170;
++
++  @override
++  double get minExtent => 170;
++
++  @override
++  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
++    return false;
++  }
++}
++
++class _ThisTopHeadingWidget extends StatelessWidget {
++  const _ThisTopHeadingWidget({
++    Key? key,
++  }) : super(key: key);
++
++  @override
++  Widget build(BuildContext context) {
++    return Container(
++      decoration: BoxDecoration(
++        color: colorRed,
++        border: Border.all(color: colorRed),
++      ),
++      padding:
++          EdgeInsets.only(top: MediaQuery.of(context).padding.top + 24).add(
++        const EdgeInsets.symmetric(horizontal: 16),
++      ),
++      child: Column(
++        crossAxisAlignment: CrossAxisAlignment.stretch,
++        children: [
++          Row(
++            children: [
++              Expanded(
++                child: Text(
++                  "Trainings",
++                  style: TextStyle(
++                    fontSize: 32,
++                    fontWeight: FontWeight.w700,
++                    letterSpacing: 1.5,
++                    fontFamily: "TimesNewRoman",
++                    color: colorWhite,
++                  ),
++                ),
++              ),
++              IconButton(
++                onPressed: () {},
++                icon: const Icon(Icons.menu),
++                color: Colors.white,
++              ),
++            ],
++          ),
++          const SizedBox(height: 24),
++          Text(
++            "Highlights",
++            style: TextStyle(
++              color: colorWhite,
++              fontSize: 16,
++              fontWeight: FontWeight.w600,
++            ),
++          ),
++        ],
++      ),
++    );
++  }
++}
++
++class _SliverCarouselDelegate extends SliverPersistentHeaderDelegate {
++  @override
++  Widget build(
++      BuildContext context, double shrinkOffset, bool overlapsContent) {
++    return HomeCarouselWidget();
++  }
++
++  @override
++  double get maxExtent => 150;
++
++  @override
++  double get minExtent => 50;
++
++  @override
++  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
++    return true;
++  }
++}
+diff --git a/lib/features/landing/widgets/home_carousel_widget.dart b/lib/features/landing/widgets/home_carousel_widget.dart
+new file mode 100644
+index 0000000..8a2778f
+--- /dev/null
++++ b/lib/features/landing/widgets/home_carousel_widget.dart
+@@ -0,0 +1,198 @@
++import 'package:flutter/material.dart';
++import 'package:my_trainings_app/utils/colors.dart';
++import 'package:carousel_slider/carousel_slider.dart';
++import 'package:my_trainings_app/utils/extensions.dart';
++
++class HomeCarouselWidget extends StatelessWidget {
++  final _carouselController = CarouselController();
++  HomeCarouselWidget({
++    Key? key,
++  }) : super(key: key);
++
++  @override
++  Widget build(BuildContext context) {
++    return Stack(
++      children: [
++        Positioned.fill(
++          child: Container(
++            decoration: _ThisRedBlueDecoration(),
++            child: CarouselSlider.builder(
++              carouselController: _carouselController,
++              itemCount: 3,
++              itemBuilder: (context, index, realIndex) =>
++                  _ThisItemWidget(index: index),
++              options: CarouselOptions(
++                viewportFraction: 1.0,
++                autoPlay: true,
++              ),
++            ),
++          ),
++        ),
++        Positioned(
++          left: 0.0,
++          top: 0.0,
++          bottom: 0.0,
++          child: Center(
++            child: InkWell(
++              onTap: () => _onTapPrevious(context),
++              child: Container(
++                decoration: BoxDecoration(
++                  color: colorBlack.withOpacity(0.50),
++                  borderRadius: BorderRadius.circular(2),
++                ),
++                padding: const EdgeInsets.symmetric(vertical: 36)
++                    .add(const EdgeInsets.only(left: 4)),
++                child: Icon(
++                  Icons.arrow_back_ios,
++                  color: colorWhite,
++                ),
++              ),
++            ),
++          ),
++        ),
++        Positioned(
++          right: 0.0,
++          top: 0.0,
++          bottom: 0.0,
++          child: Center(
++            child: InkWell(
++              onTap: () => _onTapNext(context),
++              child: Container(
++                decoration: BoxDecoration(
++                  color: colorBlack.withOpacity(0.50),
++                  borderRadius: BorderRadius.circular(2),
++                ),
++                padding: const EdgeInsets.symmetric(vertical: 36)
++                    .add(const EdgeInsets.only(right: 4)),
++                child: Icon(
++                  Icons.arrow_forward_ios,
++                  color: colorWhite,
++                ),
++              ),
++            ),
++          ),
++        ),
++      ],
++    );
++  }
++
++  void _onTapPrevious(BuildContext context) =>
++      _carouselController.previousPage();
++
++  void _onTapNext(BuildContext context) => _carouselController.nextPage();
++}
++
++class _ThisItemWidget extends StatelessWidget {
++  final int index;
++  const _ThisItemWidget({
++    required this.index,
++    Key? key,
++  }) : super(key: key);
++
++  @override
++  Widget build(BuildContext context) {
++    return Padding(
++      padding: const EdgeInsets.symmetric(horizontal: 36),
++      child: Stack(
++        children: [
++          Positioned.fill(
++            child: Container(
++              foregroundDecoration:
++                  BoxDecoration(color: colorBlack.withOpacity(0.50)),
++              child: Image.asset(
++                "slider/slide_${index + 1}.png".asAssetImg(),
++                fit: BoxFit.cover,
++              ),
++            ),
++          ),
++          Positioned(
++            left: 12.0,
++            right: 12.0,
++            bottom: 12.0,
++            child: Column(
++              crossAxisAlignment: CrossAxisAlignment.stretch,
++              children: [
++                Text(
++                  "Safe Scrum Master",
++                  style: TextStyle(
++                    fontSize: 16,
++                    color: colorWhite,
++                    fontWeight: FontWeight.w600,
++                  ),
++                ),
++                Text(
++                  "West Des Moines, IA- 30 Oct - 31 Oct",
++                  style: TextStyle(
++                    fontSize: 14,
++                    color: colorWhite,
++                    fontWeight: FontWeight.w300,
++                  ),
++                ),
++                const SizedBox(height: 8),
++                Row(
++                  crossAxisAlignment: CrossAxisAlignment.center,
++                  children: [
++                    Text(
++                      "\$971",
++                      style: TextStyle(
++                        fontSize: 12,
++                        fontWeight: FontWeight.w400,
++                        color: colorRed,
++                        decoration: TextDecoration.lineThrough,
++                      ),
++                    ),
++                    Text(
++                      " \$825",
++                      style: TextStyle(
++                        fontSize: 16,
++                        fontWeight: FontWeight.w700,
++                        color: colorRed,
++                      ),
++                    ),
++                    const Spacer(),
++                    Text(
++                      "View Details",
++                      style: TextStyle(
++                        color: colorWhite,
++                        fontSize: 12,
++                      ),
++                    ),
++                    Icon(
++                      Icons.arrow_forward,
++                      color: colorWhite,
++                      size: 14,
++                    ),
++                  ],
++                ),
++              ],
++            ),
++          ),
++        ],
++      ),
++    );
++  }
++}
++
++class _ThisRedBlueDecoration extends Decoration {
++  @override
++  BoxPainter createBoxPainter([VoidCallback? onChanged]) {
++    return _ThisBoxPainter();
++  }
++}
++
++class _ThisBoxPainter extends BoxPainter {
++  @override
++  void paint(Canvas canvas, Offset offset, ImageConfiguration configuration) {
++    canvas.save();
++    canvas.translate(offset.dx, offset.dy);
++    final topHeight = configuration.size!.height * 0.65;
++    canvas.drawRect(Offset.zero & Size(configuration.size!.width, topHeight),
++        Paint()..color = colorRed);
++    canvas.drawRect(
++        Offset(0.0, topHeight) &
++            Size(configuration.size!.width,
++                configuration.size!.height - topHeight),
++        Paint()..color = colorWhite);
++    canvas.restore();
++  }
++}
+diff --git a/lib/main.dart b/lib/main.dart
+new file mode 100644
+index 0000000..2ffbe3b
+--- /dev/null
++++ b/lib/main.dart
+@@ -0,0 +1,25 @@
++import 'package:flutter/material.dart';
++import 'package:my_trainings_app/features/landing/screens/home_screen.dart';
++import 'package:my_trainings_app/utils/colors.dart';
++import 'package:my_trainings_app/utils/routes.dart';
++
++void main() {
++  runApp(const MyApp());
++}
++
++class MyApp extends StatelessWidget {
++  const MyApp({Key? key}) : super(key: key);
++
++  @override
++  Widget build(BuildContext context) {
++    return MaterialApp(
++      title: 'My Training App',
++      theme: ThemeData(
++        primaryColor: colorRed,
++        textTheme: Theme.of(context).textTheme.apply(fontFamily: "Poppins"),
++      ),
++      onGenerateRoute: appGenerateRoute(),
++      initialRoute: HomeScreen.route,
++    );
++  }
++}
+diff --git a/lib/utils/colors.dart b/lib/utils/colors.dart
+new file mode 100644
+index 0000000..b719410
+--- /dev/null
++++ b/lib/utils/colors.dart
+@@ -0,0 +1,6 @@
++import 'package:flutter/material.dart';
++
++Color get colorRed => const Color(0xFFFF2343);
++Color get colorF2 => const Color(0xFFF2F2F2);
++Color get colorWhite => const Color(0xFFFFFFFF);
++Color get colorBlack => const Color(0xFF000000);
+diff --git a/lib/utils/extensions.dart b/lib/utils/extensions.dart
+new file mode 100644
+index 0000000..7312d82
+--- /dev/null
++++ b/lib/utils/extensions.dart
+@@ -0,0 +1,3 @@
++extension StringExtension on String {
++  String asAssetImg() => "assets/images/$this";
++}
+diff --git a/lib/utils/routes.dart b/lib/utils/routes.dart
+new file mode 100644
+index 0000000..d2fcf28
+--- /dev/null
++++ b/lib/utils/routes.dart
+@@ -0,0 +1,16 @@
++import 'package:flutter/material.dart';
++import 'package:my_trainings_app/features/landing/screens/home_screen.dart';
++
++RouteFactory? appGenerateRoute() => (settings) {
++      Widget? screen;
++      switch (settings.name) {
++        case HomeScreen.route:
++          screen = const HomeScreen();
++          break;
++      }
++      if (screen != null) {
++        return MaterialPageRoute(
++          builder: (context) => screen!,
++        );
++      }
++    };
+diff --git a/pubspec.lock b/pubspec.lock
+new file mode 100644
+index 0000000..2b8dcd2
+--- /dev/null
++++ b/pubspec.lock
+@@ -0,0 +1,174 @@
++# Generated by pub
++# See https://dart.dev/tools/pub/glossary#lockfile
++packages:
++  async:
++    dependency: transitive
++    description:
++      name: async
++      url: "https://pub.dartlang.org"
++    source: hosted
++    version: "2.8.1"
++  boolean_selector:
++    dependency: transitive
++    description:
++      name: boolean_selector
++      url: "https://pub.dartlang.org"
++    source: hosted
++    version: "2.1.0"
++  carousel_slider:
++    dependency: "direct main"
++    description:
++      name: carousel_slider
++      url: "https://pub.dartlang.org"
++    source: hosted
++    version: "4.0.0"
++  characters:
++    dependency: transitive
++    description:
++      name: characters
++      url: "https://pub.dartlang.org"
++    source: hosted
++    version: "1.1.0"
++  charcode:
++    dependency: transitive
++    description:
++      name: charcode
++      url: "https://pub.dartlang.org"
++    source: hosted
++    version: "1.3.1"
++  clock:
++    dependency: transitive
++    description:
++      name: clock
++      url: "https://pub.dartlang.org"
++    source: hosted
++    version: "1.1.0"
++  collection:
++    dependency: transitive
++    description:
++      name: collection
++      url: "https://pub.dartlang.org"
++    source: hosted
++    version: "1.15.0"
++  cupertino_icons:
++    dependency: "direct main"
++    description:
++      name: cupertino_icons
++      url: "https://pub.dartlang.org"
++    source: hosted
++    version: "1.0.4"
++  fake_async:
++    dependency: transitive
++    description:
++      name: fake_async
++      url: "https://pub.dartlang.org"
++    source: hosted
++    version: "1.2.0"
++  flutter:
++    dependency: "direct main"
++    description: flutter
++    source: sdk
++    version: "0.0.0"
++  flutter_lints:
++    dependency: "direct dev"
++    description:
++      name: flutter_lints
++      url: "https://pub.dartlang.org"
++    source: hosted
++    version: "1.0.4"
++  flutter_test:
++    dependency: "direct dev"
++    description: flutter
++    source: sdk
++    version: "0.0.0"
++  lints:
++    dependency: transitive
++    description:
++      name: lints
++      url: "https://pub.dartlang.org"
++    source: hosted
++    version: "1.0.1"
++  matcher:
++    dependency: transitive
++    description:
++      name: matcher
++      url: "https://pub.dartlang.org"
++    source: hosted
++    version: "0.12.10"
++  meta:
++    dependency: transitive
++    description:
++      name: meta
++      url: "https://pub.dartlang.org"
++    source: hosted
++    version: "1.7.0"
++  path:
++    dependency: transitive
++    description:
++      name: path
++      url: "https://pub.dartlang.org"
++    source: hosted
++    version: "1.8.0"
++  sky_engine:
++    dependency: transitive
++    description: flutter
++    source: sdk
++    version: "0.0.99"
++  source_span:
++    dependency: transitive
++    description:
++      name: source_span
++      url: "https://pub.dartlang.org"
++    source: hosted
++    version: "1.8.1"
++  stack_trace:
++    dependency: transitive
++    description:
++      name: stack_trace
++      url: "https://pub.dartlang.org"
++    source: hosted
++    version: "1.10.0"
++  stream_channel:
++    dependency: transitive
++    description:
++      name: stream_channel
++      url: "https://pub.dartlang.org"
++    source: hosted
++    version: "2.1.0"
++  string_scanner:
++    dependency: transitive
++    description:
++      name: string_scanner
++      url: "https://pub.dartlang.org"
++    source: hosted
++    version: "1.1.0"
++  term_glyph:
++    dependency: transitive
++    description:
++      name: term_glyph
++      url: "https://pub.dartlang.org"
++    source: hosted
++    version: "1.2.0"
++  test_api:
++    dependency: transitive
++    description:
++      name: test_api
++      url: "https://pub.dartlang.org"
++    source: hosted
++    version: "0.4.2"
++  typed_data:
++    dependency: transitive
++    description:
++      name: typed_data
++      url: "https://pub.dartlang.org"
++    source: hosted
++    version: "1.3.0"
++  vector_math:
++    dependency: transitive
++    description:
++      name: vector_math
++      url: "https://pub.dartlang.org"
++    source: hosted
++    version: "2.1.0"
++sdks:
++  dart: ">=2.12.0 <3.0.0"
+diff --git a/pubspec.yaml b/pubspec.yaml
+new file mode 100644
+index 0000000..773a9f4
+--- /dev/null
++++ b/pubspec.yaml
+@@ -0,0 +1,105 @@
++name: my_trainings_app
++description: My Trainings App
++
++# The following line prevents the package from being accidentally published to
++# pub.dev using `flutter pub publish`. This is preferred for private packages.
++publish_to: 'none' # Remove this line if you wish to publish to pub.dev
++
++# The following defines the version and build number for your application.
++# A version number is three numbers separated by dots, like 1.2.43
++# followed by an optional build number separated by a +.
++# Both the version and the builder number may be overridden in flutter
++# build by specifying --build-name and --build-number, respectively.
++# In Android, build-name is used as versionName while build-number used as versionCode.
++# Read more about Android versioning at https://developer.android.com/studio/publish/versioning
++# In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
++# Read more about iOS versioning at
++# https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
++version: 1.0.0+1
++
++environment:
++  sdk: ">=2.12.0 <3.0.0"
++
++# Dependencies specify other packages that your package needs in order to work.
++# To automatically upgrade your package dependencies to the latest versions
++# consider running `flutter pub upgrade --major-versions`. Alternatively,
++# dependencies can be manually updated by changing the version numbers below to
++# the latest version available on pub.dev. To see which dependencies have newer
++# versions available, run `flutter pub outdated`.
++dependencies:
++  flutter:
++    sdk: flutter
++
++
++  # The following adds the Cupertino Icons font to your application.
++  # Use with the CupertinoIcons class for iOS style icons.
++  cupertino_icons: ^1.0.2
++  carousel_slider: ^4.0.0
++
++dev_dependencies:
++  flutter_test:
++    sdk: flutter
++
++  # The "flutter_lints" package below contains a set of recommended lints to
++  # encourage good coding practices. The lint set provided by the package is
++  # activated in the `analysis_options.yaml` file located at the root of your
++  # package. See that file for information about deactivating specific lint
++  # rules and activating additional ones.
++  flutter_lints: ^1.0.0
++
++# For information on the generic Dart part of this file, see the
++# following page: https://dart.dev/tools/pub/pubspec
++
++# The following section is specific to Flutter.
++flutter:
++
++  # The following line ensures that the Material Icons font is
++  # included with your application, so that you can use the icons in
++  # the material Icons class.
++  uses-material-design: true
++
++  # To add assets to your application, add an assets section, like this:
++  assets:
++    - assets/images/
++    - assets/images/slider/
++
++  # An image asset can refer to one or more resolution-specific "variants", see
++  # https://flutter.dev/assets-and-images/#resolution-aware.
++
++  # For details regarding adding assets from package dependencies, see
++  # https://flutter.dev/assets-and-images/#from-packages
++
++  # To add custom fonts to your application, add a fonts section here,
++  # in this "flutter" section. Each entry in this list should have a
++  # "family" key with the font family name, and a "fonts" key with a
++  # list giving the asset and other descriptors for the font. For
++  # example:
++  fonts:
++    - family: TimesNewRoman
++      fonts:
++        - asset: fonts/times_new_roman/Times-New-Roman.ttf
++        - asset: fonts/times_new_roman/Times-New-Roman-Bold.ttf
++          weight: 700
++    - family: Poppins
++      fonts:
++        - asset: fonts/poppins/Poppins-Thin.ttf
++          weight: 100
++        - asset: fonts/poppins/Poppins-ExtraLight.ttf
++          weight: 200
++        - asset: fonts/poppins/Poppins-Light.ttf
++          weight: 300
++        - asset: fonts/poppins/Poppins-Regular.ttf
++          weight: 400
++        - asset: fonts/poppins/Poppins-Medium.ttf
++          weight: 500
++        - asset: fonts/poppins/Poppins-SemiBold.ttf
++          weight: 600
++        - asset: fonts/poppins/Poppins-Bold.ttf
++          weight: 700
++        - asset: fonts/poppins/Poppins-ExtraBold.ttf
++          weight: 800
++        - asset: fonts/poppins/Poppins-Black.ttf
++          weight: 900
++  #
++  # For details regarding fonts from package dependencies,
++  # see https://flutter.dev/custom-fonts/#from-packages
+diff --git a/test/widget_test.dart b/test/widget_test.dart
+new file mode 100644
+index 0000000..dcf0d0c
+--- /dev/null
++++ b/test/widget_test.dart
+@@ -0,0 +1,30 @@
++// This is a basic Flutter widget test.
++//
++// To perform an interaction with a widget in your test, use the WidgetTester
++// utility that Flutter provides. For example, you can send tap and scroll
++// gestures. You can also use WidgetTester to find child widgets in the widget
++// tree, read text, and verify that the values of widget properties are correct.
++
++import 'package:flutter/material.dart';
++import 'package:flutter_test/flutter_test.dart';
++
++import 'package:my_trainings_app/main.dart';
++
++void main() {
++  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
++    // Build our app and trigger a frame.
++    await tester.pumpWidget(const MyApp());
++
++    // Verify that our counter starts at 0.
++    expect(find.text('0'), findsOneWidget);
++    expect(find.text('1'), findsNothing);
++
++    // Tap the '+' icon and trigger a frame.
++    await tester.tap(find.byIcon(Icons.add));
++    await tester.pump();
++
++    // Verify that our counter has incremented.
++    expect(find.text('0'), findsNothing);
++    expect(find.text('1'), findsOneWidget);
++  });
++}
+diff --git a/web/favicon.png b/web/favicon.png
+new file mode 100644
+index 0000000..8aaa46a
+Binary files /dev/null and b/web/favicon.png differ
+diff --git a/web/icons/Icon-192.png b/web/icons/Icon-192.png
+new file mode 100644
+index 0000000..b749bfe
+Binary files /dev/null and b/web/icons/Icon-192.png differ
+diff --git a/web/icons/Icon-512.png b/web/icons/Icon-512.png
+new file mode 100644
+index 0000000..88cfd48
+Binary files /dev/null and b/web/icons/Icon-512.png differ
+diff --git a/web/icons/Icon-maskable-192.png b/web/icons/Icon-maskable-192.png
+new file mode 100644
+index 0000000..eb9b4d7
+Binary files /dev/null and b/web/icons/Icon-maskable-192.png differ
+diff --git a/web/icons/Icon-maskable-512.png b/web/icons/Icon-maskable-512.png
+new file mode 100644
+index 0000000..d69c566
+Binary files /dev/null and b/web/icons/Icon-maskable-512.png differ
+diff --git a/web/index.html b/web/index.html
+new file mode 100644
+index 0000000..2e258cb
+--- /dev/null
++++ b/web/index.html
+@@ -0,0 +1,101 @@
++<!DOCTYPE html>
++<html>
++<head>
++  <!--
++    If you are serving your web app in a path other than the root, change the
++    href value below to reflect the base path you are serving from.
++
++    The path provided below has to start and end with a slash "/" in order for
++    it to work correctly.
++
++    For more details:
++    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
++
++    This is a placeholder for base href that will be replaced by the value of
++    the `--base-href` argument provided to `flutter build`.
++  -->
++  <base href="$FLUTTER_BASE_HREF">
++
++  <meta charset="UTF-8">
++  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
++  <meta name="description" content="A new Flutter project.">
++
++  <!-- iOS meta tags & icons -->
++  <meta name="apple-mobile-web-app-capable" content="yes">
++  <meta name="apple-mobile-web-app-status-bar-style" content="black">
++  <meta name="apple-mobile-web-app-title" content="my_trainings_app">
++  <link rel="apple-touch-icon" href="icons/Icon-192.png">
++
++  <title>my_trainings_app</title>
++  <link rel="manifest" href="manifest.json">
++</head>
++<body>
++  <!-- This script installs service_worker.js to provide PWA functionality to
++       application. For more information, see:
++       https://developers.google.com/web/fundamentals/primers/service-workers -->
++  <script>
++    var serviceWorkerVersion = null;
++    var scriptLoaded = false;
++    function loadMainDartJs() {
++      if (scriptLoaded) {
++        return;
++      }
++      scriptLoaded = true;
++      var scriptTag = document.createElement('script');
++      scriptTag.src = 'main.dart.js';
++      scriptTag.type = 'application/javascript';
++      document.body.append(scriptTag);
++    }
++
++    if ('serviceWorker' in navigator) {
++      // Service workers are supported. Use them.
++      window.addEventListener('load', function () {
++        // Wait for registration to finish before dropping the <script> tag.
++        // Otherwise, the browser will load the script multiple times,
++        // potentially different versions.
++        var serviceWorkerUrl = 'flutter_service_worker.js?v=' + serviceWorkerVersion;
++        navigator.serviceWorker.register(serviceWorkerUrl)
++          .then((reg) => {
++            function waitForActivation(serviceWorker) {
++              serviceWorker.addEventListener('statechange', () => {
++                if (serviceWorker.state == 'activated') {
++                  console.log('Installed new service worker.');
++                  loadMainDartJs();
++                }
++              });
++            }
++            if (!reg.active && (reg.installing || reg.waiting)) {
++              // No active web worker and we have installed or are installing
++              // one for the first time. Simply wait for it to activate.
++              waitForActivation(reg.installing || reg.waiting);
++            } else if (!reg.active.scriptURL.endsWith(serviceWorkerVersion)) {
++              // When the app updates the serviceWorkerVersion changes, so we
++              // need to ask the service worker to update.
++              console.log('New service worker available.');
++              reg.update();
++              waitForActivation(reg.installing);
++            } else {
++              // Existing service worker is still good.
++              console.log('Loading app from service worker.');
++              loadMainDartJs();
++            }
++          });
++
++        // If service worker doesn't succeed in a reasonable amount of time,
++        // fallback to plaint <script> tag.
++        setTimeout(() => {
++          if (!scriptLoaded) {
++            console.warn(
++              'Failed to load app from service worker. Falling back to plain <script> tag.',
++            );
++            loadMainDartJs();
++          }
++        }, 4000);
++      });
++    } else {
++      // Service workers not supported. Just drop the <script> tag.
++      loadMainDartJs();
++    }
++  </script>
++</body>
++</html>
+diff --git a/web/manifest.json b/web/manifest.json
+new file mode 100644
+index 0000000..07c1b6c
+--- /dev/null
++++ b/web/manifest.json
+@@ -0,0 +1,35 @@
++{
++    "name": "my_trainings_app",
++    "short_name": "my_trainings_app",
++    "start_url": ".",
++    "display": "standalone",
++    "background_color": "#0175C2",
++    "theme_color": "#0175C2",
++    "description": "A new Flutter project.",
++    "orientation": "portrait-primary",
++    "prefer_related_applications": false,
++    "icons": [
++        {
++            "src": "icons/Icon-192.png",
++            "sizes": "192x192",
++            "type": "image/png"
++        },
++        {
++            "src": "icons/Icon-512.png",
++            "sizes": "512x512",
++            "type": "image/png"
++        },
++        {
++            "src": "icons/Icon-maskable-192.png",
++            "sizes": "192x192",
++            "type": "image/png",
++            "purpose": "maskable"
++        },
++        {
++            "src": "icons/Icon-maskable-512.png",
++            "sizes": "512x512",
++            "type": "image/png",
++            "purpose": "maskable"
++        }
++    ]
++}
