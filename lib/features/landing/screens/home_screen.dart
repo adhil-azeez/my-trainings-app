@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:my_trainings_app/dummy_datas.dart';
+import 'package:my_trainings_app/features/landing/dialogs/filter_pop_dialog.dart';
+import 'package:my_trainings_app/features/landing/providers/dialog_sel_providers.dart';
+import 'package:my_trainings_app/features/landing/providers/training_list_filter_provide.dart';
 import 'package:my_trainings_app/features/landing/widgets/home_carousel_widget.dart';
+import 'package:my_trainings_app/models/training_model.dart';
 import 'package:my_trainings_app/utils/colors.dart';
 import 'package:my_trainings_app/widgets/app_dashed_line_widget.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String route = '/home_screen';
@@ -14,45 +20,94 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: colorF2,
-      body: CustomScrollView(
-        slivers: [
-          SliverPersistentHeader(
-            delegate: _ThisSliverPersistentDelegate(
-                minExtent: 110,
-                maxExtent: 140,
-                buildChild: (shrinkOffset) => const _ThisTopHeadingWidget()),
-            pinned: true,
+    return MultiProvider(
+        providers: [
+          ChangeNotifierProvider(
+            create: (context) => FilterLocationSelProvider(),
           ),
-          SliverPersistentHeader(
-            delegate: _ThisSliverPersistentDelegate(
-              buildChild: (shrinkOffset) => const HomeCarouselWidget(),
-              minExtent: 50,
-              maxExtent: 150,
-            ),
-            floating: false,
-            pinned: true,
+          ChangeNotifierProvider(
+            create: (context) => FilterTrainerSelProvider(),
           ),
-          SliverPersistentHeader(
-            delegate: _ThisSliverPersistentDelegate(
-              buildChild: (shrinkOffset) => const _ThisFilterHedingWidget(),
-              minExtent: 50,
-              maxExtent: 80,
-            ),
-            floating: false,
-            pinned: true,
+          ChangeNotifierProvider(
+            create: (context) => FilterTrainingNamesSelProvider(),
           ),
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (context, index) => const _ThisListItemWidget(),
-              childCount: 10,
-            ),
+          ChangeNotifierProxyProvider3<
+              FilterLocationSelProvider,
+              FilterTrainerSelProvider,
+              FilterTrainingNamesSelProvider,
+              TrianingListFilterProvider>(
+            create: (_) =>
+                TrianingListFilterProvider()..initList(dummyTrainingModelList),
+            update: (context, locationProvider, trainerProvider, nameProvider,
+                    previous) =>
+                previous!
+                  ..setFilterItems(
+                    selLocation: locationProvider.list,
+                    selTrainer: trainerProvider.list,
+                    selTraining: nameProvider.list,
+                  ),
           ),
         ],
-      ),
-    );
+        builder: (context, _) {
+          return Scaffold(
+            backgroundColor: colorF2,
+            body: CustomScrollView(
+              slivers: [
+                SliverPersistentHeader(
+                  delegate: _ThisSliverPersistentDelegate(
+                      minExtent: 110,
+                      maxExtent: 140,
+                      buildChild: (shrinkOffset) =>
+                          const _ThisTopHeadingWidget()),
+                  pinned: true,
+                ),
+                SliverPersistentHeader(
+                  delegate: _ThisSliverPersistentDelegate(
+                    buildChild: (shrinkOffset) => const HomeCarouselWidget(),
+                    minExtent: 50,
+                    maxExtent: 150,
+                  ),
+                  floating: false,
+                  pinned: true,
+                ),
+                SliverPersistentHeader(
+                  delegate: _ThisSliverPersistentDelegate(
+                    buildChild: (shrinkOffset) =>
+                        const _ThisFilterHedingWidget(),
+                    minExtent: 50,
+                    maxExtent: 80,
+                  ),
+                  floating: false,
+                  pinned: true,
+                ),
+                Consumer<TrianingListFilterProvider>(
+                  builder: (context, provider, child) {
+                    print("########## ${provider.filteredList.length}");
+                    return SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                        (context, index) => _ThisListItemWidget(
+                          model: dummyTrainingModelList[index],
+                        ),
+                        childCount: provider.filteredList.length,
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
+          );
+        });
   }
 }
 
@@ -70,29 +125,32 @@ class _ThisFilterHedingWidget extends StatelessWidget {
       child: Column(
         children: [
           const Spacer(flex: 2),
-          Container(
-            decoration: BoxDecoration(
-              border: Border.all(color: colorC4),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(
-                  Icons.format_align_left_sharp,
-                  color: colorC4,
-                  size: 12,
-                ),
-                Text(
-                  "  Filter",
-                  style: TextStyle(
-                    fontSize: 10,
+          InkWell(
+            onTap: () => _onTapFilter(context),
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border.all(color: colorC4),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    Icons.format_align_left_sharp,
                     color: colorC4,
-                    fontWeight: FontWeight.w600,
+                    size: 12,
                   ),
-                )
-              ],
+                  Text(
+                    "  Filter",
+                    style: TextStyle(
+                      fontSize: 10,
+                      color: colorC4,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
           const Spacer(),
@@ -100,11 +158,20 @@ class _ThisFilterHedingWidget extends StatelessWidget {
       ),
     );
   }
+
+  void _onTapFilter(BuildContext context) => showFilterPopDialog(
+        context: context,
+        locationSelProvider: context.read<FilterLocationSelProvider>(),
+        namesSelProvider: context.read<FilterTrainingNamesSelProvider>(),
+        trainerSelProvider: context.read<FilterTrainerSelProvider>(),
+      );
 }
 
 class _ThisListItemWidget extends StatelessWidget {
+  final TrainingModel model;
   const _ThisListItemWidget({
     Key? key,
+    required this.model,
   }) : super(key: key);
 
   @override
@@ -148,7 +215,7 @@ class _ThisListItemWidget extends StatelessWidget {
                 ),
                 const Spacer(),
                 Text(
-                  "Convention Hall,\nGreat Des Moines",
+                  "Convention Hall,\n${model.location}",
                   style: TextStyle(
                     fontSize: 10,
                     color: colorBlack,
@@ -173,7 +240,7 @@ class _ThisListItemWidget extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "Safe Scrum Master (4.6)",
+                    "${model.name} (4.6)",
                     style: TextStyle(
                       fontSize: 14,
                       color: colorBlack,
@@ -203,7 +270,7 @@ class _ThisListItemWidget extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              "Helen Gribble",
+                              model.trainer,
                               style: TextStyle(
                                 color: colorBlack,
                                 fontSize: 10,
